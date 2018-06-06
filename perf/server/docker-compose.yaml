@@ -2,13 +2,22 @@ version: "3"
 services:
   server:
     image: server-go
+    deploy:
+      resources:
+        limits:
+          cpus: '1'
     network_mode: "service:mesher"
-    ports:
-      - "9999:9999"
+
   mesher:
     image: hwcse/cse-mesher:1.4.8
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
     ports:
+      - "9999:9999"
       - "30101:30101"
     environment:
-      - CSE_REGISTRY_ADDR=http://${SC_ENDPOINT}:30100
-      - SERVICE_NAME=Client
+      - CSE_REGISTRY_ADDR=http://100.64.110.76:30100
+      - SERVICE_NAME=Server
+      - SPECIFIC_ADDR=127.0.0.1:9999
