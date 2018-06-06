@@ -1,0 +1,14 @@
+version: "3"
+services:
+  server:
+    image: server-go
+    network_mode: "service:mesher"
+    ports:
+      - "9999:9999"
+  mesher:
+    image: hwcse/cse-mesher:1.4.8
+    ports:
+      - "30101:30101"
+    environment:
+      - CSE_REGISTRY_ADDR=http://${SC_ENDPOINT}:30100
+      - SERVICE_NAME=Client
