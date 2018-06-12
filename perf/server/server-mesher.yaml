@@ -1,0 +1,35 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: server-mesher
+  labels:
+    app: default
+    version: 0.0.1
+spec:
+  containers:
+    - name: server
+      image: server-go
+      ports:
+        - containerPort: 9999
+      resources:
+        limits:
+          cpu: "1"
+    - name: mesher
+      image: hwcse/cse-mesher:1.4.8
+      args:
+        - --service-ports
+        - http:9999
+      env:
+        - name: SERVICE_NAME
+          valueFrom:
+            fieldRef:
+              fieldPath: metadata.name
+        - name: CSE_REGISTRY_ADDR
+          value: http://service-center.default:30100
+      ports:
+        - containerPort: 30101
+        - containerPort: 30102
+        - containerPort: 6060
+      resources:
+          limits:
+            cpu: "2"
