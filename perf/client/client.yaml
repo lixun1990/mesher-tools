@@ -3,7 +3,7 @@ kind: Pod
 metadata:
   name: client
   labels:
-    app: perf
+    app: perf-client
     version: 0.0.1
 spec:
   containers:
@@ -11,10 +11,20 @@ spec:
       image: xiaoliang/client-go
       env:
         - name: TARGET
-          value: http://10.105.251.35:9999/
+          value: http://10.244.3.28:9999/
       resources:
         limits:
-          cpu: "1"
+          cpu: "0.5"
+  affinity:
+    podAffinity:
+      requiredDuringSchedulingIgnoredDuringExecution:
+      - labelSelector:
+          matchExpressions:
+          - key: app
+            operator: In
+            values:
+            - perf
+        topologyKey: kubernetes.io/hostname
 ---
 apiVersion: v1
 kind: Service
@@ -23,7 +33,7 @@ metadata:
   name: client
 spec:
   selector:
-    app: perf
+    app: perf-client
   ports:
   - protocol: TCP
     name: client2
