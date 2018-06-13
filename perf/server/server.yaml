@@ -8,7 +8,7 @@ metadata:
 spec:
   containers:
     - name: server
-      image: server-go
+      image: xiaoliang/server-go
       ports:
         - containerPort: 9999
       resources:
