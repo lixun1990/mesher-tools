@@ -10,7 +10,9 @@ func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		resp, _ := http.Get(os.Getenv("TARGET"))
 		log.Println(resp)
-		w.Write([]byte("hello"))
+		b := make([]byte, 0)
+		_, _ = resp.Body.Read(b)
+		w.Write(b)
 
 	})
 	http.ListenAndServe(":9000", nil)

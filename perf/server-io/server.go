@@ -7,7 +7,8 @@ import (
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		log.Println("hello")
+		resp, _ := http.Get("http://127.0.0.1:9999/")
+		log.Println(resp)
 		w.Write([]byte("hello"))
 
 	})
