@@ -1,13 +1,13 @@
 package main
 
 import (
+	"log"
 	"net/http"
-	"fmt"
 )
 
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("hello")
+		log.Println("hello")
 		w.Write([]byte("hello"))
 
 	})
